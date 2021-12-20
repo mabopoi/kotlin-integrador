@@ -1,10 +1,43 @@
 import java.util.*
+import kotlin.math.ceil
 
-data class ParkingSpace(var vehicle : Vehicle){
+data class ParkingSpace(var vehicle : Vehicle, val parking: Parking){
 
     val MINUTE_INT_MILISECONDS = 60000
 
     val parkedTime: Long
         get() = (Calendar.getInstance().timeInMillis - vehicle.checkInTime.timeInMillis) / MINUTE_INT_MILISECONDS
 
+    fun checkOutVehicle(plate: String){
+        val foundVehicle = parking.vehicles.firstOrNull { it.plate == plate }
+        foundVehicle?.let {
+            val hasDiscountCard = it.discountCard?.let { true } ?: false
+            val amount = calculateFee(it.type, parkedTime.toInt(), hasDiscountCard)
+            onSuccess(amount)
+            parking.vehicles.remove(it)
+            val checkoutVehicles = parking.checkoutsAndEarnings.first + 1
+            val earnings = parking.checkoutsAndEarnings.first + amount
+            parking.checkoutsAndEarnings = Pair(checkoutVehicles, earnings)
+        } ?: run { onError() }
+    }
+
+    fun onSuccess(amountToPay: Int){
+        println("Your fee is $amountToPay. Come back soon")
+    }
+    fun onError(){
+        println("Sorry, the check-out failed")
+    }
+
+    fun calculateFee(type: VehicleType, parkedTime: Int, hasDiscountCard: Boolean): Int{
+        var fee = type.cost
+        if (parkedTime > 120){
+            val minutesLeft = parkedTime - 120
+            println(minutesLeft)
+            val amountToCharge = ceil((minutesLeft.toFloat() / 15f)).toInt()
+            println(amountToCharge)
+            fee += 5 * amountToCharge
+        }
+        if(hasDiscountCard) fee -= fee * 15 / 100
+        return fee
+    }
 }
