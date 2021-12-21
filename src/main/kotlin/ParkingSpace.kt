@@ -16,7 +16,7 @@ data class ParkingSpace(var vehicle : Vehicle, val parking: Parking){
             onSuccess(amount)
             parking.vehicles.remove(it)
             val checkoutVehicles = parking.checkoutsAndEarnings.first + 1
-            val earnings = parking.checkoutsAndEarnings.first + amount
+            val earnings = parking.checkoutsAndEarnings.second + amount
             parking.checkoutsAndEarnings = Pair(checkoutVehicles, earnings)
         } ?: run { onError() }
     }
@@ -32,9 +32,7 @@ data class ParkingSpace(var vehicle : Vehicle, val parking: Parking){
         var fee = type.cost
         if (parkedTime > 120){
             val minutesLeft = parkedTime - 120
-            println(minutesLeft)
             val amountToCharge = ceil((minutesLeft.toFloat() / 15f)).toInt()
-            println(amountToCharge)
             fee += 5 * amountToCharge
         }
         if(hasDiscountCard) fee -= fee * 15 / 100
