@@ -3,7 +3,7 @@ import java.util.*
 fun main(args: Array<String>) {
     println("Integrador Kotlin")
 
-    //Consigna 1
+    //Exercise 1
     //Se define Vehicles como un set porque esta estructura no permite repetir dentro de su collecion
 
     val car = Vehicle("AA111AA",VehicleType.CAR, Calendar.getInstance())
@@ -30,7 +30,9 @@ fun main(args: Array<String>) {
 
     val parking = Parking(mutableSetOf(), 20, Pair(0,0))
 
-    val vehiclesList = listOf(car,car2,moto, minibus, bus, bus2, bus3, bus4, bus5, bus6,bus7,bus8, bus9, bus10, bus11, bus12, bus13, bus14, bus15, bus16, bus17)
+    //Exercise 6
+    val vehiclesList = listOf(car,car2,moto, minibus, bus, bus2, bus3, bus4, bus5, bus6,bus7,bus8, bus9,
+        bus10, bus11, bus12, bus13, bus14, bus15, bus16, bus17)
 
     vehiclesList.forEach {
         val result = parking.addVehicle(it)
