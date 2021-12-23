@@ -1,10 +1,9 @@
 import java.util.*
 
 fun main(args: Array<String>) {
-    println("Integrador Kotlin")
 
     //Exercise 1
-    //Se define Vehicles como un set porque esta estructura no permite repetir dentro de su collecion
+    //Vehicles is defined as a set because this structure does not allow repeating within its collection
 
     val testCalendarCar = Calendar.getInstance()
     testCalendarCar.add(Calendar.HOUR, -3)
